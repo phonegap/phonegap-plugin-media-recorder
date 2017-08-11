@@ -24,4 +24,4 @@ var exec = cordova.require('cordova/exec'),
 
 
 
-module.exports = mediaRecorder;
+module.exports = MediaRecorder;

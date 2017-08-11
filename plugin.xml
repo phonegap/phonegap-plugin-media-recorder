@@ -31,20 +31,10 @@
     <issue>https://github.com/phonegap/phonegap-plugin-media-recorder/issues</issue>
 
 
-    <!-- android -->
-    <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/*">
-            
-        </config-file>
-        <framework src="com.android.support:support-v4:24.1.1+" />
-
-      </platform>
-
-
      <!-- ios -->
      <platform name="ios">
          <js-module src="www/MediaRecorder.js" name="MediaRecorder">
-             <clobbers target="mediaRecorder" />
+             <clobbers target="MediaRecorder" />
          </js-module>
 
          <config-file target="config.xml" parent="/*">
