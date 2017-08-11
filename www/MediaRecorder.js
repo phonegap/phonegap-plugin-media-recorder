@@ -18,10 +18,12 @@
  * under the License.
  *
 */
-/* globals Promise, cordova, MediaStream */
-var exec = cordova.require('cordova/exec'),
-    utils = cordova.require('cordova/utils'),
+/* globals Promise, cordova */
+var exec = cordova.require('cordova/exec');
+var utils = cordova.require('cordova/utils');
 
+var MediaRecorder = function (stream) {
 
+};
 
 module.exports = MediaRecorder;
