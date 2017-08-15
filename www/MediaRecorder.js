@@ -43,14 +43,12 @@ var MediaRecorder = function (stream, options) {
 };
 
 MediaRecorder.prototype.start = function (timeslice) {
-    if(this.state != 'inactive'){
-        var name = 'InvalidStateError';
-        var description = '';
-        var domException = new DOMException(description, name);
-        return domException;
+    if(this.state !== 'inactive'){
+        throw new DOMException('', 'InvalidStateError');
+        return;
     }
     else {
-    	this.state = 'recording';
+        this.state = 'recording';
         var success = function (info) {           
             this.onstart();       
         };
@@ -61,10 +59,8 @@ MediaRecorder.prototype.start = function (timeslice) {
 };
 MediaRecorder.prototype.stop = function () {
     if(this.state === 'inactive'){
-        var name = 'InvalidStateError';
-        var description = '';
-        var domException = new DOMException(description, name);
-        return domException;
+        throw new DOMException('', 'InvalidStateError');
+        return;
     }
     else {
     	this.state = 'inactive';
@@ -78,10 +74,8 @@ MediaRecorder.prototype.stop = function () {
 };
 MediaRecorder.prototype.pause = function () {
     if(this.state === 'inactive'){
-        var name = 'InvalidStateError';
-        var description = '';
-        var domException = new DOMException(description, name);
-        return domException;
+        throw new DOMException('', 'InvalidStateError');
+        return;
     }
     else {
     	this.state = 'paused';
@@ -95,10 +89,8 @@ MediaRecorder.prototype.pause = function () {
 };
 MediaRecorder.prototype.resume = function () {
 	if(this.state === 'inactive'){
-        var name = 'InvalidStateError';
-        var description = '';
-        var domException = new DOMException(description, name);
-        return domException;
+        throw new DOMException('', 'InvalidStateError');
+        return;
     }
     else {
     	this.state = 'recording';
