@@ -24,16 +24,14 @@ var utils = cordova.require('cordova/utils');
 
 var MediaRecorder = function (stream, options) {
     this.stream = stream;
-    if(!options.mimeType){
+
+    // bad code -- just wiring things up - will improve soon
+    if(options === undefined){
     	this.mimeType = '';
-    };
-    this.state = 'inactive';
-    if(!options.videoBitsPerSecond){
     	this.videoBitsPerSecond = 0;
-    };
-    if(!options.audioBitsPerSecond){
     	this.audioBitsPerSecond = 0;
-    };
+    };    
+    this.state = 'inactive';
     this.onstart = function () {};
     this.onstop = function () {};
     this.ondataavailable = function () {};
@@ -49,6 +47,9 @@ MediaRecorder.prototype.start = function (timeslice) {
     }
     else {
         this.state = 'recording';
+        if(!timeslice){
+        	timeslice = Number.MAX_SAFE_INTEGER;
+        }
         var success = function (info) {           
             this.onstart();       
         };

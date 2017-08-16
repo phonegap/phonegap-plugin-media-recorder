@@ -19,8 +19,9 @@
 
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
+#import <Cordova/CDVPlugin+Resources.h>
 
-@interface CDVMediaRecorder : CDVPlugin {
+@interface CDVMediaRecorder : CDVPlugin <UINavigationControllerDelegate> {
     
 }
     

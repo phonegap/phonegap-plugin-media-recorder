@@ -18,8 +18,22 @@
  */
 
 #import "CDVMediaRecorder.h"
+#import "CameraViewController.h"
 
 
 @implementation CDVMediaRecorder
+    
+- (void)start:(CDVInvokedUrlCommand*)command
+{
+        // handle command and options
+    __weak CDVMediaRecorder* weakSelf = self;
+        
+        // switch to camera view
+    CameraViewController *cameraViewController = [[CameraViewController alloc] init];
+    [weakSelf.viewController presentViewController:cameraViewController animated:YES completion:^{
+            
+    }];
+        
+}
 
 @end
