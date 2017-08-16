@@ -29,7 +29,7 @@
     <keywords>cordova,media</keywords>
     <repo>https://github.com/phonegap/phonegap-plugin-media-recorder.git</repo>
     <issue>https://github.com/phonegap/phonegap-plugin-media-recorder/issues</issue>
-    <dependency id="phonegap-plugin-media-stream"/>
+    <dependency id="phonegap-plugin-media-stream" version="^1.1.0"/>
 
 
      <!-- ios -->
