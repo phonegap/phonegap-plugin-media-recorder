@@ -25,7 +25,6 @@
 @interface CDVMediaRecorder : CDVMediaStream <UINavigationControllerDelegate> {
 
 }
-
-@property (nonatomic, assign) BOOL video;
+@property (strong, nonatomic) CDVInvokedUrlCommand * command;
 
 @end

@@ -27,12 +27,18 @@
 {
         // handle command and options
     __weak CDVMediaRecorder* weakSelf = self;
-        
+     self.command = command;    
         // switch to camera view
     CameraViewController *cameraViewController = [[CameraViewController alloc] init];
     [weakSelf.viewController presentViewController:cameraViewController animated:YES completion:^{
             
     }];
+        
+}
+- (void)receiveVideo:(NSURL*)outputURL
+{
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:outputURL];
+    [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];
         
 }
 
