@@ -26,5 +26,6 @@
 
 }
 @property (strong, nonatomic) CDVInvokedUrlCommand * command;
+- (void)receiveVideo:(NSURL*)outputURL;
 
 @end

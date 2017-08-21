@@ -30,6 +30,7 @@
      self.command = command;    
         // switch to camera view
     CameraViewController *cameraViewController = [[CameraViewController alloc] init];
+     cameraViewController.mediaStreamInterface = self;
     [weakSelf.viewController presentViewController:cameraViewController animated:YES completion:^{
             
     }];
@@ -37,9 +38,9 @@
 }
 - (void)receiveVideo:(NSURL*)outputURL
 {
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:outputURL];
-    [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];
-        
+    NSString *outputString = outputURL.absoluteString;
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:outputString];
+    [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];        
 }
 
 @end
