@@ -44,6 +44,16 @@
              </feature>
          </config-file>
 
+         <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
+         <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+             <string>$CAMERA_USAGE_DESCRIPTION</string>
+         </config-file>
+
+         <preference name="MICROPHONE_USAGE_DESCRIPTION" default=" " />
+         <config-file target="*-Info.plist" parent="NSMicrophoneUsageDescription">
+             <string>$MICROPHONE_USAGE_DESCRIPTION</string>
+         </config-file>
+
          <header-file src="src/ios/CDVMediaRecorder.h" />
          <source-file src="src/ios/CDVMediaRecorder.m" />
      </platform>
