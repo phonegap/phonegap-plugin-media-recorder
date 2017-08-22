@@ -22,25 +22,27 @@
 
 
 @implementation CDVMediaRecorder
-    
+
 - (void)start:(CDVInvokedUrlCommand*)command
 {
         // handle command and options
     __weak CDVMediaRecorder* weakSelf = self;
-     self.command = command;    
+    self.command = command;
         // switch to camera view
     CameraViewController *cameraViewController = [[CameraViewController alloc] init];
-     cameraViewController.mediaStreamInterface = self;
+    cameraViewController.mediaStreamInterface = self;
+    cameraViewController.task = @"mediaRecorder";
     [weakSelf.viewController presentViewController:cameraViewController animated:YES completion:^{
-            
+
+
     }];
-        
+
 }
 - (void)receiveVideo:(NSURL*)outputURL
 {
     NSString *outputString = outputURL.absoluteString;
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:outputString];
-    [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];        
+    [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];
 }
 
 @end
