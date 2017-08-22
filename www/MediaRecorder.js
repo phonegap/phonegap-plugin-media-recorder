@@ -23,6 +23,7 @@ var exec = cordova.require('cordova/exec');
 
 var MediaRecorder = function (stream, options) {
     this.stream = stream;
+    this._url = null;
 
     // bad code -- just wiring things up - will improve soon
     if (options === undefined) {
@@ -49,7 +50,12 @@ MediaRecorder.prototype.start = function (timeslice) {
         }
         var that = this;
         var success = function (info) {
-            that.onstart();
+            if (info.state === 'recording') {
+                that.onstart();
+            } else if (info.state === 'inactive') {
+                that._url = info.url;
+                that.onstop();
+            }
         };
         var fail = function (error) {
             console.log(error);
