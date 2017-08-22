@@ -18,19 +18,18 @@
  * under the License.
  *
 */
-/* globals Promise, cordova */
+/* globals Promise, cordova, DOMException */
 var exec = cordova.require('cordova/exec');
-var utils = cordova.require('cordova/utils');
 
 var MediaRecorder = function (stream, options) {
     this.stream = stream;
 
     // bad code -- just wiring things up - will improve soon
-    if(options === undefined){
-    	this.mimeType = '';
-    	this.videoBitsPerSecond = 0;
-    	this.audioBitsPerSecond = 0;
-    };    
+    if (options === undefined) {
+        this.mimeType = '';
+        this.videoBitsPerSecond = 0;
+        this.audioBitsPerSecond = 0;
+    }
     this.state = 'inactive';
     this.onstart = function () {};
     this.onstop = function () {};
@@ -41,73 +40,74 @@ var MediaRecorder = function (stream, options) {
 };
 
 MediaRecorder.prototype.start = function (timeslice) {
-    if(this.state !== 'inactive'){
+    if (this.state !== 'inactive') {
         throw new DOMException('', 'InvalidStateError');
-        return;
-    }
-    else {
+    } else {
         this.state = 'recording';
-        if(!timeslice){
-        	timeslice = Number.MAX_SAFE_INTEGER;
+        if (!timeslice) {
+            timeslice = Number.MAX_SAFE_INTEGER;
         }
-        var success = function (info) {           
-            this.onstart();       
+        var success = function (info) {
+            this.onstart();
         };
-        var fail = function (error) {      
+        var fail = function (error) {
+            console.log(error);
         };
         exec(success, fail, 'MediaRecorder', 'start', [timeslice]);
     }
 };
+
 MediaRecorder.prototype.stop = function () {
-    if(this.state === 'inactive'){
+    if (this.state === 'inactive') {
         throw new DOMException('', 'InvalidStateError');
-        return;
-    }
-    else {
-    	this.state = 'inactive';
-        var success = function (info) {           
-            this.onstop();       
+    } else {
+        this.state = 'inactive';
+        var success = function (info) {
+            this.onstop();
         };
-        var fail = function (error) {      
+        var fail = function (error) {
+            console.log(error);
         };
         exec(success, fail, 'MediaRecorder', 'stop', []);
     }
 };
+
 MediaRecorder.prototype.pause = function () {
-    if(this.state === 'inactive'){
+    if (this.state === 'inactive') {
         throw new DOMException('', 'InvalidStateError');
-        return;
-    }
-    else {
-    	this.state = 'paused';
-        var success = function (info) {           
-            this.onpause();       
+    } else {
+        this.state = 'paused';
+        var success = function (info) {
+            this.onpause();
         };
-        var fail = function (error) {      
+        var fail = function (error) {
+            console.log(error);
         };
         exec(success, fail, 'MediaRecorder', 'pause', []);
     }
 };
+
 MediaRecorder.prototype.resume = function () {
-	if(this.state === 'inactive'){
+    if (this.state === 'inactive') {
         throw new DOMException('', 'InvalidStateError');
-        return;
-    }
-    else {
-    	this.state = 'recording';
-        var success = function (info) {           
-            this.onresume();       
+    } else {
+        this.state = 'recording';
+        var success = function (info) {
+            this.onresume();
         };
-        var fail = function (error) {      
+        var fail = function (error) {
+            console.log(error);
         };
         exec(success, fail, 'MediaRecorder', 'resume', []);
     }
 };
+
 MediaRecorder.prototype.requestData = function () {
     this.ondataavailable();
 };
+
 MediaRecorder.prototype.isTypeSupported = function (type) {
-   // return true/false;
+    // return true/false;
 };
 
 module.exports = MediaRecorder;
