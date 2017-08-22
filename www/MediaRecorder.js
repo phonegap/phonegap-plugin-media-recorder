@@ -18,7 +18,7 @@
  * under the License.
  *
 */
-/* globals Promise, cordova, DOMException */
+/* globals Promise, cordova, DOMException, fetch */
 var exec = cordova.require('cordova/exec');
 
 var MediaRecorder = function (stream, options) {
@@ -113,7 +113,13 @@ MediaRecorder.prototype.resume = function () {
 };
 
 MediaRecorder.prototype.requestData = function () {
-    this.ondataavailable();
+    var that = this;
+    // works on ios 10.3 and above
+    fetch(this._url).then(function (response) {
+        return response.blob();
+    }).then(function (blob) {
+        that.ondataavailable(blob);
+    });
 };
 
 MediaRecorder.prototype.isTypeSupported = function (type) {
