@@ -47,8 +47,9 @@ MediaRecorder.prototype.start = function (timeslice) {
         if (!timeslice) {
             timeslice = Number.MAX_SAFE_INTEGER;
         }
+        var that = this;
         var success = function (info) {
-            this.onstart();
+            that.onstart();
         };
         var fail = function (error) {
             console.log(error);
@@ -62,8 +63,9 @@ MediaRecorder.prototype.stop = function () {
         throw new DOMException('', 'InvalidStateError');
     } else {
         this.state = 'inactive';
+        var that = this;
         var success = function (info) {
-            this.onstop();
+            that.onstop();
         };
         var fail = function (error) {
             console.log(error);
@@ -77,8 +79,9 @@ MediaRecorder.prototype.pause = function () {
         throw new DOMException('', 'InvalidStateError');
     } else {
         this.state = 'paused';
+        var that = this;
         var success = function (info) {
-            this.onpause();
+            that.onpause();
         };
         var fail = function (error) {
             console.log(error);
@@ -92,8 +95,9 @@ MediaRecorder.prototype.resume = function () {
         throw new DOMException('', 'InvalidStateError');
     } else {
         this.state = 'recording';
+        var that = this;
         var success = function (info) {
-            this.onresume();
+            that.onresume();
         };
         var fail = function (error) {
             console.log(error);
