@@ -61,6 +61,7 @@
 
          <header-file src="src/ios/CDVMediaRecorder.h" />
          <source-file src="src/ios/CDVMediaRecorder.m" />
+         <resource-file src="src/ios/CDVMediaRecorder.bundle"/>
      </platform>
 
     <!-- browser -->
