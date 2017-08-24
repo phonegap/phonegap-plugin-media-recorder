@@ -60,7 +60,19 @@ MediaRecorder.prototype.start = function (timeslice) {
         var fail = function (error) {
             console.log(error);
         };
-        exec(success, fail, 'MediaRecorder', 'start', [timeslice]);
+        var video = '';
+        //  fails when no audio and/or video tracks present - needs to be fixed in media stream
+        var videoTrack = this.stream.getVideoTracks()[0];
+        if (videoTrack) {
+            video = videoTrack.description;
+        }
+        var audio = false;
+        var audioTrack = this.stream.getAudioTracks()[0];
+        if (audioTrack) {
+            audio = true;
+        }
+        var args = [timeslice,video,audio];
+        exec(success, fail, 'MediaRecorder', 'start', args);
     }
 };
 
