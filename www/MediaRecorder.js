@@ -60,19 +60,11 @@ MediaRecorder.prototype.start = function (timeslice) {
         var fail = function (error) {
             console.log(error);
         };
-        var video = '';
-        //  fails when no audio and/or video tracks present - needs to be fixed in media stream
-        var videoTrack = this.stream.getVideoTracks()[0];
-        if (videoTrack) {
-            video = videoTrack.description;
-        }
-        var audio = false;
-        var audioTrack = this.stream.getAudioTracks()[0];
-        if (audioTrack) {
-            audio = true;
-        }
-        var args = [timeslice,video,audio];
-        exec(success, fail, 'MediaRecorder', 'start', args);
+        // If we have a video stream pass in which camera to use
+        var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
+        // If we have an audio stream enable recording of audio
+        var audio = this.stream.getAudioTracks().length > 0;
+        exec(success, fail, 'MediaRecorder', 'start', [timeslice, video, audio]);
     }
 };
 
