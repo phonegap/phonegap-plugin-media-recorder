@@ -36,7 +36,7 @@
     if(![self.videoCam isEqualToString:@""]){
         cameraViewController.camDirection = self.videoCam;
     }
-    cameraViewController.isAudio = command.arguments[2];
+    cameraViewController.isAudio = [[command argumentAtIndex:2 withDefault:@(NO)] boolValue];
     cameraViewController.task = @"mediaRecorder";
     [weakSelf.viewController presentViewController:cameraViewController animated:YES completion:^{
 
