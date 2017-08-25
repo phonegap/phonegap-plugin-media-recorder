@@ -43,6 +43,11 @@
                  <param name="ios-package" value="CDVMediaRecorder" />
              </feature>
          </config-file>
+         <config-file target="config.xml" parent="/*">
+             <feature name="AudioRecorder">
+                 <param name="ios-package" value="CDVAudioRecorder" />
+             </feature>
+         </config-file>
 
          <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
          <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
@@ -61,6 +66,8 @@
 
          <header-file src="src/ios/CDVMediaRecorder.h" />
          <source-file src="src/ios/CDVMediaRecorder.m" />
+         <header-file src="src/ios/CDVAudioRecorder.h" />
+         <source-file src="src/ios/CDVAudioRecorder.m" />
          <resource-file src="src/ios/CDVMediaRecorder.bundle"/>
      </platform>
 
