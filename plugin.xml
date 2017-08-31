@@ -30,6 +30,7 @@
     <repo>https://github.com/phonegap/phonegap-plugin-media-recorder.git</repo>
     <issue>https://github.com/phonegap/phonegap-plugin-media-recorder/issues</issue>
     <dependency id="phonegap-plugin-media-stream" version="^1.1.0"/>
+    <dependency id="cordova-plugin-file" version="^4.0.0" />
 
 
      <!-- ios -->
@@ -45,7 +46,7 @@
          </config-file>
          <config-file target="config.xml" parent="/*">
              <feature name="AudioRecorder">
-                 <param name="ios-package" value="CDVAudioRecorder" />
+                 <param name="ios-package" value="CDVAudio" />
              </feature>
          </config-file>
 

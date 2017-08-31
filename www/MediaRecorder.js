@@ -38,6 +38,8 @@ var MediaRecorder = function (stream, options) {
     this.onpause = function () {};
     this.onresume = function () {};
     this.onerror = function () {};
+    this.id = '';
+    this.src = 'cdvfile://localhost/temporary/recording.m4a';
 };
 
 MediaRecorder.prototype.start = function (timeslice) {
@@ -49,6 +51,18 @@ MediaRecorder.prototype.start = function (timeslice) {
             timeslice = Number.MAX_SAFE_INTEGER;
         }
         var that = this;
+        // If we have a video stream pass in which camera to use
+        var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
+        // If we have an audio stream enable recording of audio
+        var audio = this.stream.getAudioTracks().length > 0;
+        if (video === '' && audio === true) {
+            this.id = this.stream.getAudioTracks()[0].id;
+            var errorCallback = function (err) {
+                console.log(err);
+            };
+            exec(null, errorCallback, 'AudioRecorder', 'startRecordingAudio', [this.id, this.src]);
+            return;
+        }
         var success = function (info) {
             if (info.state === 'recording') {
                 that.onstart();
@@ -60,10 +74,6 @@ MediaRecorder.prototype.start = function (timeslice) {
         var fail = function (error) {
             console.log(error);
         };
-        // If we have a video stream pass in which camera to use
-        var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
-        // If we have an audio stream enable recording of audio
-        var audio = this.stream.getAudioTracks().length > 0;
         exec(success, fail, 'MediaRecorder', 'start', [timeslice, video, audio]);
     }
 };
@@ -74,6 +84,17 @@ MediaRecorder.prototype.stop = function () {
     } else {
         this.state = 'inactive';
         var that = this;
+        // If we have a video stream pass in which camera to use
+        var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
+        // If we have an audio stream enable recording of audio
+        var audio = this.stream.getAudioTracks().length > 0;
+        if (video === '' && audio === true) {
+            var errorCallback = function (err) {
+                console.log(err);
+            };
+            exec(null, errorCallback, 'AudioRecorder', 'stopRecordingAudio', [this.id, this.src]);
+            return;
+        }
         var success = function (info) {
             that.onstop();
         };
@@ -96,7 +117,7 @@ MediaRecorder.prototype.pause = function () {
         var fail = function (error) {
             console.log(error);
         };
-        exec(success, fail, 'MediaRecorder', 'pause', []);
+        exec(success, fail, 'AudioRecorder', 'pauseRecordingAudio', [this.id]);
     }
 };
 
@@ -112,7 +133,7 @@ MediaRecorder.prototype.resume = function () {
         var fail = function (error) {
             console.log(error);
         };
-        exec(success, fail, 'MediaRecorder', 'resume', []);
+        exec(success, fail, 'AudioRecorder', 'resumeRecordingAudio', [this.id]);
     }
 };
 

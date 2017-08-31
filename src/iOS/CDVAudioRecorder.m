@@ -15,7 +15,7 @@
  under the License.
  */
 
-#import "CDVSound.h"
+#import "CDVAudioRecorder.h"
 #import "CDVFile.h"
 #import <AVFoundation/AVFoundation.h>
 #include <math.h>
@@ -25,7 +25,7 @@
 #define HTTPS_SCHEME_PREFIX @"https://"
 #define CDVFILE_PREFIX @"cdvfile://"
 
-@implementation CDVSound
+@implementation CDVAudio
 
 @synthesize soundCache, avSession, currMediaId, statusCallbackId;
 
@@ -645,7 +645,7 @@
 
     if ((audioFile != nil) && (audioFile.resourceURL != nil)) {
 
-        __weak CDVSound* weakSelf = self;
+        __weak CDVAudio* weakSelf = self;
 
         void (^startRecording)(void) = ^{
             NSError* __autoreleasing error = nil;
@@ -912,29 +912,29 @@
 
 - (void)onStatus:(CDVMediaMsg)what mediaId:(NSString*)mediaId param:(NSObject*)param
 {
-    if (self.statusCallbackId!=nil) { //new way, android,windows compatible
-        NSMutableDictionary* status=[NSMutableDictionary dictionary];
-        status[@"msgType"] = @(what);
-        //in the error case contains a dict with "code" and "message"
-        //otherwise a NSNumber
-        status[@"value"] = param; 
-        status[@"id"] = mediaId;
-        NSMutableDictionary* dict=[NSMutableDictionary dictionary];
-        dict[@"action"] = @"status";
-        dict[@"status"] = status;
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
-        [result setKeepCallbackAsBool:YES]; //we keep this forever
-        [self.commandDelegate sendPluginResult:result callbackId:self.statusCallbackId];
-    } else { //old school evalJs way
-        if (what==MEDIA_ERROR) {
-            NSData* jsonData = [NSJSONSerialization dataWithJSONObject:param options:0 error:nil];
-            param=[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        }
-        NSString* jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%@);",
-              @"cordova.require('cordova-plugin-media.Media').onStatus", 
-              mediaId, (int)what, param];
-        [self.commandDelegate evalJs:jsString];
-    }
+//    if (self.statusCallbackId!=nil) { //new way, android,windows compatible
+//        NSMutableDictionary* status=[NSMutableDictionary dictionary];
+//        status[@"msgType"] = @(what);
+//        //in the error case contains a dict with "code" and "message"
+//        //otherwise a NSNumber
+//        status[@"value"] = param; 
+//        status[@"id"] = mediaId;
+//        NSMutableDictionary* dict=[NSMutableDictionary dictionary];
+//        dict[@"action"] = @"status";
+//        dict[@"status"] = status;
+//        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dict];
+//        [result setKeepCallbackAsBool:YES]; //we keep this forever
+//        [self.commandDelegate sendPluginResult:result callbackId:self.statusCallbackId];
+//    } else { //old school evalJs way
+//        if (what==MEDIA_ERROR) {
+//            NSData* jsonData = [NSJSONSerialization dataWithJSONObject:param options:0 error:nil];
+//            param=[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+//        }
+//        NSString* jsString = [NSString stringWithFormat:@"%@(\"%@\",%d,%@);",
+//              @"cordova.require('cordova-plugin-media.Media').onStatus", 
+//              mediaId, (int)what, param];
+//        [self.commandDelegate evalJs:jsString];
+//    }
 }
 
 @end
