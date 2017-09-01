@@ -58,7 +58,7 @@ MediaRecorder.prototype.start = function (timeslice) {
         if (video === '' && audio === true) {
             this.id = this.stream.getAudioTracks()[0].id;
             var errorCallback = function (err) {
-                console.log(err);
+                that.onerror(err);
             };
             exec(null, errorCallback, 'AudioRecorder', 'startRecordingAudio', [this.id, this.src]);
             return;
@@ -72,7 +72,7 @@ MediaRecorder.prototype.start = function (timeslice) {
             }
         };
         var fail = function (error) {
-            console.log(error);
+            that.onerror(error);
         };
         exec(success, fail, 'MediaRecorder', 'start', [timeslice, video, audio]);
     }
@@ -90,7 +90,7 @@ MediaRecorder.prototype.stop = function () {
         var audio = this.stream.getAudioTracks().length > 0;
         if (video === '' && audio === true) {
             var errorCallback = function (err) {
-                console.log(err);
+                that.onerror(err);
             };
             exec(null, errorCallback, 'AudioRecorder', 'stopRecordingAudio', [this.id, this.src]);
             return;
@@ -99,7 +99,7 @@ MediaRecorder.prototype.stop = function () {
             that.onstop();
         };
         var fail = function (error) {
-            console.log(error);
+            that.onerror(error);
         };
         exec(success, fail, 'MediaRecorder', 'stop', []);
     }
@@ -115,7 +115,7 @@ MediaRecorder.prototype.pause = function () {
             that.onpause();
         };
         var fail = function (error) {
-            console.log(error);
+            that.onerror(error);
         };
         exec(success, fail, 'AudioRecorder', 'pauseRecordingAudio', [this.id]);
     }
@@ -131,7 +131,7 @@ MediaRecorder.prototype.resume = function () {
             that.onresume();
         };
         var fail = function (error) {
-            console.log(error);
+            that.onerror(error);
         };
         exec(success, fail, 'AudioRecorder', 'resumeRecordingAudio', [this.id]);
     }
