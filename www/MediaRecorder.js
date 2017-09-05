@@ -55,14 +55,6 @@ MediaRecorder.prototype.start = function (timeslice) {
         var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
         // If we have an audio stream enable recording of audio
         var audio = this.stream.getAudioTracks().length > 0;
-        if (video === '' && audio === true) {
-            this.id = this.stream.getAudioTracks()[0].id;
-            var errorCallback = function (err) {
-                that.onerror(err);
-            };
-            exec(null, errorCallback, 'AudioRecorder', 'startRecordingAudio', [this.id, this.src]);
-            return;
-        }
         var success = function (info) {
             if (info.state === 'recording') {
                 that.onstart();
@@ -74,7 +66,12 @@ MediaRecorder.prototype.start = function (timeslice) {
         var fail = function (error) {
             that.onerror(error);
         };
-        exec(success, fail, 'MediaRecorder', 'start', [timeslice, video, audio]);
+        if (video !== '') {
+            exec(success, fail, 'MediaRecorder', 'start', [timeslice, video, audio]);
+        } else {
+            this.id = this.stream.getAudioTracks()[0].id;
+            exec(success, fail, 'AudioRecorder', 'startRecordingAudio', [this.id, this.src]);
+        }
     }
 };
 
@@ -84,24 +81,17 @@ MediaRecorder.prototype.stop = function () {
     } else {
         this.state = 'inactive';
         var that = this;
-        // If we have a video stream pass in which camera to use
-        var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
-        // If we have an audio stream enable recording of audio
-        var audio = this.stream.getAudioTracks().length > 0;
-        if (video === '' && audio === true) {
-            var errorCallback = function (err) {
-                that.onerror(err);
-            };
-            exec(null, errorCallback, 'AudioRecorder', 'stopRecordingAudio', [this.id, this.src]);
-            return;
-        }
         var success = function (info) {
             that.onstop();
         };
         var fail = function (error) {
             that.onerror(error);
         };
-        exec(success, fail, 'MediaRecorder', 'stop', []);
+        if (this.id === '') {
+            exec(success, fail, 'MediaRecorder', 'stop', []);
+        } else {
+            exec(success, fail, 'AudioRecorder', 'stopRecordingAudio', [this.id, this.src]);
+        }
     }
 };
 
