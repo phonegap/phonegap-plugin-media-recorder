@@ -636,6 +636,7 @@
 - (void)startRecordingAudio:(CDVInvokedUrlCommand*)command
 {
     NSString* callbackId = command.callbackId;
+    self.command = command;
 
 #pragma unused(callbackId)
 
@@ -663,8 +664,8 @@
                 if (![weakSelf.avSession setActive:YES error:&error]) {
                     // other audio with higher priority that does not allow mixing could cause this to fail
                     errorMsg = [NSString stringWithFormat:@"Unable to record audio: %@", [error localizedFailureReason]];
-                    [weakSelf onStatus:MEDIA_ERROR mediaId:mediaId param:
-                           [self createAbortError:errorMsg]];
+                    CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMsg];
+                    [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
                     return;
                 }
             }
@@ -694,7 +695,8 @@
                 recordingSuccess = [audioFile.recorder record];
                 if (recordingSuccess) {
                     NSLog(@"Started recording audio sample '%@'", audioFile.resourcePath);
-                    [weakSelf onStatus:MEDIA_STATE mediaId:mediaId param:@(MEDIA_RUNNING)];
+                    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"recording"];
+                    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
                 }
             }
 
@@ -708,8 +710,8 @@
                 if (weakSelf.avSession) {
                     [weakSelf.avSession setActive:NO error:nil];
                 }
-                [weakSelf onStatus:MEDIA_ERROR mediaId:mediaId param:
-                           [self createAbortError:errorMsg]];
+                CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMsg];
+                [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
             }
         };
 
@@ -728,8 +730,8 @@
                     if (weakSelf.avSession) {
                         [weakSelf.avSession setActive:NO error:nil];
                     }
-                    [weakSelf onStatus:MEDIA_ERROR mediaId:mediaId param:
-                           [self createAbortError:msg]];
+                    CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:msg];
+                    [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
                 }
             }];
 #pragma clang diagnostic pop
@@ -740,8 +742,9 @@
     } else {
         // file did not validate
         NSString* errorMsg = [NSString stringWithFormat:@"Could not record audio at '%@'", audioFile.resourcePath];
-        [self onStatus:MEDIA_ERROR mediaId:mediaId param:
-          [self createAbortError:errorMsg]];
+        CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMsg];
+        [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
+
     }
 }
 
@@ -768,10 +771,11 @@
         NSLog(@"Finished recording audio sample '%@'", audioFile.resourcePath);
     }
     if (flag) {
-        [self onStatus:MEDIA_STATE mediaId:mediaId param:@(MEDIA_STOPPED)];
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"stopped recording"];
+        [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];
     } else {
-        [self onStatus:MEDIA_ERROR mediaId:mediaId param:
-          [self createMediaErrorWithCode:MEDIA_ERR_DECODE message:nil]];
+        CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:nil];
+        [self.commandDelegate sendPluginResult:commandResult callbackId:self.command.callbackId];
     }
     if (self.avSession) {
         [self.avSession setActive:NO error:nil];
@@ -886,7 +890,8 @@
          NSLog(@"Resumed recording audio sample '%@'", audioFile.resourcePath);
          [audioFile.recorder record];
          // no callback - that will happen in audioRecorderDidFinishRecording
-         [self onStatus:MEDIA_STATE mediaId:mediaId param:@(MEDIA_RUNNING)];
+         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"resumed recording"];
+         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
      }
 
 }
@@ -901,7 +906,8 @@
          NSLog(@"Paused recording audio sample '%@'", audioFile.resourcePath);
          [audioFile.recorder pause];
          // no callback - that will happen in audioRecorderDidFinishRecording
-         [self onStatus:MEDIA_STATE mediaId:mediaId param:@(MEDIA_PAUSED)];
+         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"paused recording"];
+         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
      }
  }
 

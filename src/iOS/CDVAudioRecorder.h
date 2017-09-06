@@ -93,6 +93,7 @@ typedef NSUInteger CDVMediaMsg;
 @property (nonatomic, strong) AVAudioSession* avSession;
 @property (nonatomic, strong) NSString* currMediaId;
 @property (nonatomic, strong) NSString* statusCallbackId;
+@property (strong, nonatomic) CDVInvokedUrlCommand * command;
 
 - (void)startPlayingAudio:(CDVInvokedUrlCommand*)command;
 - (void)pausePlayingAudio:(CDVInvokedUrlCommand*)command;
