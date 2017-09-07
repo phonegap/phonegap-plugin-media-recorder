@@ -138,7 +138,8 @@ MediaRecorder.prototype.requestData = function () {
 };
 
 MediaRecorder.prototype.isTypeSupported = function (type) {
-    // return true/false;
+    var typesSupported = ['audio/m4a', 'audio/wav'];
+    return typesSupported.includes(type);
 };
 
 module.exports = MediaRecorder;
