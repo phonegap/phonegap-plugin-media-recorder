@@ -37,6 +37,7 @@
         cameraViewController.camDirection = self.videoCam;
     }
     cameraViewController.isAudio = [[command argumentAtIndex:2 withDefault:@(NO)] boolValue];
+    cameraViewController.time = [command.arguments[0] floatValue];
     cameraViewController.task = @"mediaRecorder";
     [weakSelf.viewController presentViewController:cameraViewController animated:YES completion:^{
 
