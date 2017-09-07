@@ -30,6 +30,8 @@ var MediaRecorder = function (stream, options) {
         this.mimeType = '';
         this.videoBitsPerSecond = 0;
         this.audioBitsPerSecond = 0;
+    } else {
+        this.mimeType = options.mimeType || '';
     }
     this.state = 'inactive';
     this.onstart = function () {};
@@ -39,7 +41,7 @@ var MediaRecorder = function (stream, options) {
     this.onresume = function () {};
     this.onerror = function () {};
     this.id = '';
-    this.src = 'cdvfile://localhost/temporary/recording.m4a';
+    this.src = 'cdvfile://localhost/temporary/recording.';
 };
 
 MediaRecorder.prototype.start = function (timeslice) {
@@ -51,6 +53,11 @@ MediaRecorder.prototype.start = function (timeslice) {
             timeslice = Number.MAX_SAFE_INTEGER;
         }
         var that = this;
+        var typesSupported = ['audio/m4a', 'audio/wav'];
+        if (typesSupported.includes(this.mimeType)) {
+            var arrTypes = this.mimeType.split('/');
+            this.src = this.src + arrTypes[1];
+        }
         // If we have a video stream pass in which camera to use
         var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
         // If we have an audio stream enable recording of audio
