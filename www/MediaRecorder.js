@@ -23,8 +23,6 @@ var exec = cordova.require('cordova/exec');
 
 var MediaRecorder = function (stream, options) {
     this.stream = stream;
-    this._url = null;
-
     // bad code -- just wiring things up - will improve soon
     if (options === undefined) {
         this.mimeType = '';
@@ -53,13 +51,15 @@ MediaRecorder.prototype.start = function (timeslice) {
             timeslice = Number.MAX_SAFE_INTEGER;
         }
         var that = this;
-        var typesSupported = ['audio/m4a', 'audio/wav','video/quicktime'];
         var defaultType = 'm4a';
-        if (this.mimeType !== '' && typesSupported.includes(this.mimeType)) {
-            var arrTypes = this.mimeType.split('/');
-            this.src = this.src + arrTypes[1];
+        if (this.isTypeSupported(this.mimeType)) {
+            if (this.mimeType !== '' && this.mimeType.split('/')[0] !== 'video') {
+                this.src = this.src + this.mimeType.split('/')[1];
+            } else {
+                this.src = this.src + defaultType;
+            }
         } else {
-            this.src = this.src + defaultType;
+            throw new DOMException('', 'NotSupportedError');
         }
         // If we have a video stream pass in which camera to use
         var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
@@ -69,18 +69,20 @@ MediaRecorder.prototype.start = function (timeslice) {
             if (info.state === 'recording') {
                 that.onstart();
             } else if (info.state === 'inactive') {
-                that._url = info.url;
+                that.src = info.url;
                 that.onstop();
             }
         };
         var fail = function (error) {
             that.onerror(error);
         };
-        if (video !== '') {
+        if (video !== '' && (this.mimeType === '' || this.mimeType === 'video/quicktime')) {
             exec(success, fail, 'MediaRecorder', 'start', [timeslice, video, audio]);
-        } else {
+        } else if (video === '' && audio === true) {
             this.id = this.stream.getAudioTracks()[0].id;
             exec(success, fail, 'AudioRecorder', 'startRecordingAudio', [this.id, this.src]);
+        } else {
+            throw new DOMException('Incompatible mimeType', 'NotSupportedError');
         }
     }
 };
@@ -140,7 +142,7 @@ MediaRecorder.prototype.resume = function () {
 MediaRecorder.prototype.requestData = function () {
     var that = this;
     // works on ios 10.3 and above
-    fetch(this._url).then(function (response) {
+    fetch(this.src).then(function (response) {
         return response.blob();
     }).then(function (blob) {
         that.ondataavailable(blob);
@@ -148,7 +150,7 @@ MediaRecorder.prototype.requestData = function () {
 };
 
 MediaRecorder.prototype.isTypeSupported = function (type) {
-    var typesSupported = ['audio/m4a', 'audio/wav','video/quicktime'];
+    var typesSupported = ['', 'audio/m4a', 'audio/wav', 'video/quicktime'];
     return typesSupported.includes(type);
 };
 
