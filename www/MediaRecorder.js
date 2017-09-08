@@ -53,13 +53,13 @@ MediaRecorder.prototype.start = function (timeslice) {
             timeslice = Number.MAX_SAFE_INTEGER;
         }
         var that = this;
-        var typesSupported = ['audio/m4a', 'audio/wav'];
+        var typesSupported = ['audio/m4a', 'audio/wav','video/quicktime'];
         var defaultType = 'm4a';
         if (this.mimeType !== '' && typesSupported.includes(this.mimeType)) {
             var arrTypes = this.mimeType.split('/');
             this.src = this.src + arrTypes[1];
         } else {
-            this.src = this.src = defaultType;
+            this.src = this.src + defaultType;
         }
         // If we have a video stream pass in which camera to use
         var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
@@ -148,7 +148,7 @@ MediaRecorder.prototype.requestData = function () {
 };
 
 MediaRecorder.prototype.isTypeSupported = function (type) {
-    var typesSupported = ['audio/m4a', 'audio/wav'];
+    var typesSupported = ['audio/m4a', 'audio/wav','video/quicktime'];
     return typesSupported.includes(type);
 };
 
