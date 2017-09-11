@@ -48,6 +48,8 @@ var MediaRecorder = function (stream, options) {
     }
 };
 
+var timeOutID;
+
 MediaRecorder.prototype.start = function (timeslice) {
     if (this.state !== 'inactive') {
         throw new DOMException('', 'InvalidStateError');
@@ -87,7 +89,7 @@ MediaRecorder.prototype.start = function (timeslice) {
         } else {
             this.id = this.stream.getAudioTracks()[0].id;
             exec(success, fail, 'AudioRecorder', 'startRecordingAudio', [this.id, this.src]);
-            setTimeout(function () {
+            timeOutID = setTimeout(function () {
                 that.stop();
             }, timeslice);
         }
@@ -95,6 +97,7 @@ MediaRecorder.prototype.start = function (timeslice) {
 };
 
 MediaRecorder.prototype.stop = function () {
+    clearTimeout(timeOutID);
     if (this.state === 'inactive') {
         throw new DOMException('', 'InvalidStateError');
     } else {
