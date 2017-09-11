@@ -56,7 +56,7 @@ MediaRecorder.prototype.start = function (timeslice) {
     } else {
         this.state = 'recording';
         if (!timeslice) {
-            timeslice = Number.MAX_SAFE_INTEGER;
+            timeslice = 2147483647;
         }
         var that = this;
         var defaultType = 'm4a';
