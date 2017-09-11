@@ -45,7 +45,7 @@ var MediaRecorder = function (stream, options) {
         'audio/wav': 'wav',
         'audio/m4a': 'm4a',
         'video/quicktime': 'mov'
-    }
+    };
 };
 
 var timeOutID;
