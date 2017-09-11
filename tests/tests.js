@@ -22,89 +22,79 @@
 /* globals MediaRecorder */
 /* jshint jasmine: true */
 
-exports.defineAutoTests = function () {
-
-    describe('phonegap-plugin-media-recorder', function () {
-
-        describe('MediaRecorder', function () {
-
-            it('should exist', function () {
-                expect(MediaRecorder).toBeDefined();
-                expect(typeof MediaRecorder === 'function').toBe(true);
-            });
-
-            it('should take a MediaStream as constructor argument', function (done) {
-                console.log('here1');
-                try {
-                    var constraints = {
-                        audio: true,
-                        video: true
-                    };
-                    var p = navigator.mediaDevices.getUserMedia(constraints);
-                    console.log(typeof p);
-                    expect(p).toBeDefined();
-                    p.then(function (stream) {
-                        console.log('here');
-                        var media = new MediaRecorder(stream);
-                        expect(media).toBeDefined();
-                        expect(typeof media === 'object').toBe(true);
-                        expect(media.stream).toBeDefined();
-                        expect(media.stream.id).toBeDefined();
-                        expect(typeof media.stream.id).toBe('string');
-                        expect(media.stream.getVideoTracks()[0]).toBeDefined();
-                        console.log(media.stream.getVideoTracks[0]);
-                        console.log(typeof media.stream.getVideoTracks[0]);
-                        expect(media.stream.getAudioTracks()[0]).toBeDefined();
-                        expect(media.stream.getTracks()).toBeDefined();
-                        expect(media.stream.getTrackbyId()).toBeDefined();
-                        expect(media.stream.addTrack()).toBeDefined();
-                        expect(media.stream.removeTrack()).toBeDefined();
-                        expect(media.stream.onaddtrack).toBeDefined();
-                        expect(media.stream.onremovetrack).toBeDefined();
-                        expect(media.stream.clone()).toBeDefined();
-                        expect(media.stream.active).toBeDefined();
-                        expect(typeof media.stream.active).toBe('number');
-                        expect(media.mimeType).toBeDefined();
-                        expect(typeof media.mimeType).toBe('string');
-                        expect(media.state).toBeDefined();
-                        var recState = ['inactive', 'recording', 'paused'];
-                        expect(recState).toContain(media.state);
-                        expect(media.onstart).toBeDefined();
-                        expect(media.onstop).toBeDefined();
-                        expect(media.ondataavailable).toBeDefined();
-                        expect(media.onpause).toBeDefined();
-                        expect(media.onresume).toBeDefined();
-                        expect(media.onerror).toBeDefined();
-                        expect(media.videoBitsPerSecond).toBeDefined();
-                        expect(typeof media.videoBitsPerSecond).toBe('number');
-                        expect(media.audioBitsPerSecond).toBeDefined();
-                        expect(typeof media.audioBitsPerSecond).toBe('number');
-                        expect(media.start).toBeDefined();
-                        expect(typeof media.start).toBe('function');
-                        expect(media.stop).toBeDefined();
-                        expect(typeof media.stop).toBe('function');
-                        expect(media.pause).toBeDefined();
-                        expect(typeof media.pause).toBe('function');
-                        expect(media.resume).toBeDefined();
-                        expect(typeof media.resume).toBe('function');
-                        expect(media.requestData).toBeDefined();
-                        expect(typeof media.requestData).toBe('function');
-                        expect(media.isTypeSupported).toBeDefined();
-                        done();
-
-                    }, function (err) {
-                        expect(err).toBeDefined();
-                        console.log(err);
-                        fail(err);
-                        done();
-                    });
-                } catch (err) {
-                    fail(err);
-                    done();
-
-                }
-            });
+exports.defineManualTests = function (contentEl, createActionButton) {
+    var setVideo = function (constraints) {
+        navigator.mediaDevices.getUserMedia(constraints
+        ).then(function (getmedia) {
+            var media = new MediaRecorder(getmedia);
+            media.onstop = function () {
+                media.requestData();
+            };
+            media.ondataavailable = function (blob) {
+                // how to play in video element
+                var v = document.getElementById('vid');
+                v.src = media.src;
+            };
+            media.start();
 
         });
-    });
+
+    };
+
+    var clickPicture = '<div id ="Take_Video"></div>';
+    contentEl.innerHTML = '<video id="vid"></video>' + clickPicture;
+
+    createActionButton('Audio + Video (Front)', function () {
+        var constraints = {
+            'audio': true,
+            'video': {
+                facingMode: 'user'
+            }
+        };
+        setVideo(constraints);
+    }, 'Take_Video');
+    createActionButton('Audio + Video (Rear)', function () {
+        var constraints = {
+            'audio': true,
+            'video': {
+                facingMode: 'environment'
+            }
+        };
+        setVideo(constraints);
+    }, 'Take_Video');
+    createActionButton('Audio (False) + Video (Front)', function () {
+        var constraints = {
+            'audio': false,
+            'video': {
+                facingMode: 'user'
+            }
+        };
+        setVideo(constraints);
+    }, 'Take_Video');
+    createActionButton('Audio (False) + Video (Rear)', function () {
+        var constraints = {
+            'audio': false,
+            'video': {
+                facingMode: 'environment'
+            }
+        };
+        setVideo(constraints);
+    }, 'Take_Video');
+    createActionButton('Video Only(Front)', function () {
+        var constraints = {
+            'video': {
+                facingMode: 'user'
+            }
+        };
+        setVideo(constraints);
+    }, 'Take_Video');
+    createActionButton('Video Only(Rear)', function () {
+        var constraints = {
+            'video': {
+                facingMode: 'environment'
+            }
+        };
+        setVideo(constraints);
+    }, 'Take_Video');
+
 };
