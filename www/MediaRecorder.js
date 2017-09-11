@@ -59,12 +59,9 @@ MediaRecorder.prototype.start = function (timeslice) {
             timeslice = 2147483647;
         }
         var that = this;
-        var defaultType = 'm4a';
         if (this.isTypeSupported(this.mimeType)) {
-            if (this.mimeType !== '' && this.mimeType.split('/')[0] !== 'video') {
-                this.src = this.src + this.mimeType.split('/')[1];
-            } else {
-                this.src = this.src + defaultType;
+            if (this.mimeType !== 'video/quicktime') {
+                this.src = this.src + this.typesSupported[this.mimeType];
             }
         } else {
             throw new DOMException('Incompatible mimeType', 'NotSupportedError');
