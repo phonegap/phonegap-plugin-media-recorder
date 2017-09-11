@@ -40,6 +40,12 @@ var MediaRecorder = function (stream, options) {
     this.onerror = function () {};
     this.id = '';
     this.src = 'cdvfile://localhost/temporary/recording.';
+    this.typesSupported = {
+        '': 'm4a',
+        'audio/wav': 'wav',
+        'audio/m4a': 'm4a',
+        'video/quicktime': 'mov'
+    }
 };
 
 MediaRecorder.prototype.start = function (timeslice) {
@@ -151,8 +157,7 @@ MediaRecorder.prototype.requestData = function () {
 };
 
 MediaRecorder.prototype.isTypeSupported = function (type) {
-    var typesSupported = ['', 'audio/m4a', 'audio/wav', 'video/quicktime'];
-    return typesSupported.includes(type);
+    return (this.typesSupported[type] !== 'undefined');
 };
 
 module.exports = MediaRecorder;
