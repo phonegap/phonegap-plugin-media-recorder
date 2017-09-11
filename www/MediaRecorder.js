@@ -65,7 +65,7 @@ MediaRecorder.prototype.start = function (timeslice) {
                 this.src = this.src + defaultType;
             }
         } else {
-            throw new DOMException('', 'NotSupportedError');
+            throw new DOMException('Incompatible mimeType', 'NotSupportedError');
         }
         // If we have a video stream pass in which camera to use
         var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
