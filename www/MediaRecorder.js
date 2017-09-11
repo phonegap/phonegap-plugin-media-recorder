@@ -76,13 +76,14 @@ MediaRecorder.prototype.start = function (timeslice) {
         var fail = function (error) {
             that.onerror(error);
         };
-        if (video !== '' && (this.mimeType === '' || this.mimeType === 'video/quicktime')) {
+        if (video !== '') {
             exec(success, fail, 'MediaRecorder', 'start', [timeslice, video, audio]);
-        } else if (video === '' && audio === true) {
+        } else {
             this.id = this.stream.getAudioTracks()[0].id;
             exec(success, fail, 'AudioRecorder', 'startRecordingAudio', [this.id, this.src]);
-        } else {
-            throw new DOMException('Incompatible mimeType', 'NotSupportedError');
+            setTimeout(function () {
+                that.stop();
+            }, timeslice);
         }
     }
 };
