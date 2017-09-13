@@ -29,7 +29,6 @@
 @property (strong, nonatomic) CDVInvokedUrlCommand * command;
 @property (assign, nonatomic) NSString *videoCam;
 
-- (void)receiveVideo:(NSURL*)outputURL;
 - (void)sendPluginResult:(NSDictionary*)dict keepResult:(BOOL)keep;
 
 @end

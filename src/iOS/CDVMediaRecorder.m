@@ -45,10 +45,9 @@
     }];
 
 }
-- (void)receiveVideo:(NSURL*)outputURL
+- (void)receiveError
 {
-    NSString *outputString = outputURL.absoluteString;
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:outputString];
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Recording Failed"];
     [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];
 }
 
