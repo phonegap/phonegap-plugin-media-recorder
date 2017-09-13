@@ -60,9 +60,7 @@ MediaRecorder.prototype.start = function (timeslice) {
         }
         var that = this;
         if (this.isTypeSupported(this.mimeType)) {
-            if (this.mimeType !== 'video/quicktime') {
-                this.src = this.src + this.typesSupported[this.mimeType];
-            }
+            this.src = this.src + this.typesSupported[this.mimeType];
         } else {
             throw new DOMException('Incompatible mimeType', 'NotSupportedError');
         }
