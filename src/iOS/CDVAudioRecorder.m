@@ -751,7 +751,7 @@
 - (void)stopRecordingAudio:(CDVInvokedUrlCommand*)command
 {
     NSString* mediaId = [command argumentAtIndex:0];
-
+    self.command = command;
     CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
 
     if ((audioFile != nil) && (audioFile.recorder != nil)) {
