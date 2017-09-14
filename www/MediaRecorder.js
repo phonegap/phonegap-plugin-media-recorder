@@ -49,7 +49,6 @@ var MediaRecorder = function (stream, options) {
     this.timeOutID = 0;
 };
 
-
 MediaRecorder.prototype.start = function (timeslice) {
     if (this.state !== 'inactive') {
         throw new DOMException('', 'InvalidStateError');
@@ -99,7 +98,11 @@ MediaRecorder.prototype.stop = function () {
         var that = this;
         var success = function (info) {
             clearTimeout(that.timeOutID);
-            that.onstop();
+            resolveLocalFileSystemURL(that.src, function (entry) { // eslint-disable-line no-undef
+                var nativePath = entry.toURL();
+                that.src = nativePath;
+                that.onstop();
+            });
         };
         var fail = function (error) {
             that.onerror(error);

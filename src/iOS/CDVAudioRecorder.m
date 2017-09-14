@@ -766,19 +766,21 @@
     CDVAudioRecorder* aRecorder = (CDVAudioRecorder*)recorder;
     NSString* mediaId = aRecorder.mediaId;
     CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
-
+    
     if (audioFile != nil) {
         NSLog(@"Finished recording audio sample '%@'", audioFile.resourcePath);
     }
     if (flag) {
+        AVAudioSession* tempSess = [AVAudioSession sharedInstance];
+        NSError *setCategoryError = nil;
+        flag = [tempSess setCategory:AVAudioSessionCategoryPlayback
+                               error:&setCategoryError];
+        
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"stopped recording"];
         [self.commandDelegate sendPluginResult:result callbackId:self.command.callbackId];
     } else {
         CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:nil];
         [self.commandDelegate sendPluginResult:commandResult callbackId:self.command.callbackId];
-    }
-    if (self.avSession) {
-        [self.avSession setActive:NO error:nil];
     }
 }
 
