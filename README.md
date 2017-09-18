@@ -58,7 +58,7 @@ The mediaRecorder object has the following methods:
 - [pause()](https://github.com/phonegap/phonegap-plugin-media-recorder#mediapause)
 - [resume()](https://github.com/phonegap/phonegap-plugin-media-recorder#mediaresume)
 - [requestData()](https://github.com/phonegap/phonegap-plugin-media-recorder#mediarequestdata)
-- [isTypeSupported]
+- [isTypeSupported](https://github.com/phonegap/phonegap-plugin-media-recorder#mediarecorderistypesupported)
 
 The mediaRecorder object also has the following events:
 
@@ -120,7 +120,7 @@ This method allows us to see if a specific mimeType is supported
 
 ### Example
 
-mediaRecorder.isTypeSupported("audio/m4a");  //returns true
+mediaRecorder.isTypeSupported("audio/m4a");   //  returns true
 
 
 ## Gathering and Playing the recorded data
