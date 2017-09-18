@@ -162,10 +162,7 @@ Recording Audio
         audioTag.src = mediaRecorder.src;
     }
     mediaRecorder.start();
-
-// stop recording audio after 10 seconds
-
-    setTimeout(function(){
+    setTimeout(function(){              // stop recording audio after 10 seconds
         mediaRecorder.stop();
     }, 10000);           
 
