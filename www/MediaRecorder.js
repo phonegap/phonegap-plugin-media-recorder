@@ -105,6 +105,7 @@ MediaRecorder.prototype.stop = function () {
             });
         };
         var fail = function (error) {
+        	that.onstop();
             that.onerror(error);
         };
         if (this.id === '') {
