@@ -53,11 +53,11 @@ The MediaRecorder constructor uses the mediastream track obtained by using the p
 
 The mediaRecorder object has the following methods:
 
-- [start(optional timeslice)]
-- [stop()]
-- [pause()]
-- [resume()]
-- [requestData()]
+- [start(optional timeslice)](https://github.com/phonegap/phonegap-plugin-media-recorder#mediarecorderstartoptional-timeslice)
+- [stop()](https://github.com/phonegap/phonegap-plugin-media-recorder#mediastop)
+- [pause()](https://github.com/phonegap/phonegap-plugin-media-recorder#mediapause)
+- [resume()](https://github.com/phonegap/phonegap-plugin-media-recorder#mediaresume)
+- [requestData()](https://github.com/phonegap/phonegap-plugin-media-recorder#mediarequestdata)
 - [isTypeSupported]
 
 The mediaRecorder object also has the following events:
@@ -78,7 +78,7 @@ The start method accepts an optional timeslice parameter (in milliseconds) and a
     mediaRecorder.start();
 
 
-##  media.stop
+##  mediaRecorder.stop
 
 The stop method allows the user to stop recording an audio/ video. For video recording, the implementation in iOS allows the user to stop the video using the camera button. For audio, the iOS implementation does not have a specific UI and works in the background.
 
@@ -87,7 +87,7 @@ The stop method allows the user to stop recording an audio/ video. For video rec
     mediaRecorder.stop();
 
 
-## media.pause
+## mediaRecorder.pause
 
 This functionality is supported only for audio recording on iOS. Fully supported on Android.
 
@@ -96,7 +96,7 @@ This functionality is supported only for audio recording on iOS. Fully supported
     mediaRecorder.pause();
 
 
-## media.resume
+## mediaRecorder.resume
 
 This functionality is supported only for audio recording on iOS. Fully supported on Android.
 
@@ -105,15 +105,22 @@ This functionality is supported only for audio recording on iOS. Fully supported
     mediaRecorder.resume();
 
 
-
-
-## media.requestData
+## mediaRecorder.requestData
 
 This functionality allows us to gather the recorded video/audio data in a blob.
 
 ### Example
 
     mediaRecorder.requestData();
+
+
+## mediaRecorder.isTypeSupported
+
+This method allows us to see if a specific mimeType is supported
+
+### Example
+
+mediaRecorder.isTypeSupported("audio/m4a");  //returns true
 
 
 ## Gathering and Playing the recorded data
