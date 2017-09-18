@@ -38,15 +38,15 @@ The MediaRecorder constructor uses the mediastream track obtained by using the p
 
 ### Example
 
-navigator.mediaDevices.getUserMedia({
-'audio': true,
-'video': {
-facingMode: 'user'
-}
-}).then(function(getmedia) {
-var options = { mimeType : 'video/quicktime'};
-var mediaRecorder = new MediaRecorder(getmedia, options);
-});
+        navigator.mediaDevices.getUserMedia({
+            'audio': true,
+            'video': {
+            facingMode: 'user'
+            }
+        }).then(function(getmedia) {
+            var options = { mimeType : 'video/quicktime'};
+            var mediaRecorder = new MediaRecorder(getmedia, options);
+        });
 
 
 ## The `mediaRecorder` object
@@ -75,7 +75,7 @@ The start method accepts an optional timeslice parameter (in milliseconds) and a
 
 ### Example
 
-mediaRecorder.start();
+    mediaRecorder.start();
 
 
 ##  media.stop
@@ -84,7 +84,7 @@ The stop method allows the user to stop recording an audio/ video. For video rec
 
 ### Example
 
-mediaRecorder.stop();
+    mediaRecorder.stop();
 
 
 ## media.pause
@@ -93,7 +93,7 @@ This functionality is supported only for audio recording on iOS. Fully supported
 
 ### Example
 
-mediaRecorder.pause();
+    mediaRecorder.pause();
 
 
 ## media.resume
@@ -102,7 +102,7 @@ This functionality is supported only for audio recording on iOS. Fully supported
 
 ### Example
 
-mediaRecorder.resume();
+    mediaRecorder.resume();
 
 
 
@@ -113,7 +113,7 @@ This functionality allows us to gather the recorded video/audio data in a blob.
 
 ### Example
 
-mediaRecorder.requestData();
+    mediaRecorder.requestData();
 
 
 ## Gathering and Playing the recorded data
@@ -124,42 +124,43 @@ After the requestData() method is called and the blob is created, the `ondataava
 
 Recording video on iOS
 
-mediaRecorder.onstart = function() {
-console.log('recording started');
-}
-mediaRecorder.onstop = function() {
-console.log ('recording stopped');
-mediaRecorder.requestData();
-}
-mediaRecorder.ondataavailable = function(blob) {
-var videoTag = document.getElementById("vid");  // vid is the video tag 
-videoTag.src = mediaRecorder.src;
-}
-mediaRecorder.start();
+    mediaRecorder.onstart = function() {
+        console.log('recording started');
+    }
+    mediaRecorder.onstop = function() {
+        console.log ('recording stopped');
+    mediaRecorder.requestData();
+    }
+    mediaRecorder.ondataavailable = function(blob) {
+        var videoTag = document.getElementById("vid");  // vid is the video tag 
+        videoTag.src = mediaRecorder.src;
+    }
+    mediaRecorder.start();
+
 
 The stop(), pause() and resume() events are supported on Android.
 
 
 Recording Audio
 
-mediaRecorder.onstart = function() {
-console.log('recording started');
-}
-mediaRecorder.onstop = function() {
-console.log ('recording stopped');
-mediaRecorder.requestData();
-}
-mediaRecorder.ondataavailable = function(blob) {
-var audioTag = document.getElementById("aud");  //  aud is the audio tag 
-audioTag.src = mediaRecorder.src;
-}
-mediaRecorder.start();
+    mediaRecorder.onstart = function() {
+        console.log('recording started');
+    }
+    mediaRecorder.onstop = function() {
+        console.log ('recording stopped');
+        mediaRecorder.requestData();
+    }
+    mediaRecorder.ondataavailable = function(blob) {
+        var audioTag = document.getElementById("aud");  //  aud is the audio tag 
+        audioTag.src = mediaRecorder.src;
+    }
+    mediaRecorder.start();
 
 // stop recording audio after 10 seconds
 
-setTimeout(function(){
-mediaRecorder.stop();
-}, 10000);           
+    setTimeout(function(){
+        mediaRecorder.stop();
+    }, 10000);           
 
 
 
