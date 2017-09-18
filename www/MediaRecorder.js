@@ -160,7 +160,7 @@ MediaRecorder.prototype.requestData = function () {
 };
 
 MediaRecorder.prototype.isTypeSupported = function (type) {
-    return (this.typesSupported[type] !== 'undefined');
+    return (this.typesSupported[type] !== undefined);
 };
 
 module.exports = MediaRecorder;
