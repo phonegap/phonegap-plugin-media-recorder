@@ -23,13 +23,14 @@ var exec = cordova.require('cordova/exec');
 
 var MediaRecorder = function (stream, options) {
     this.stream = stream;
-    // bad code -- just wiring things up - will improve soon
     if (options === undefined) {
         this.mimeType = '';
         this.videoBitsPerSecond = 0;
         this.audioBitsPerSecond = 0;
     } else {
         this.mimeType = options.mimeType || '';
+        this.videoBitsPerSecond = 0;
+        this.audioBitsPerSecond = 0;
     }
     this.state = 'inactive';
     this.onstart = function () {};
