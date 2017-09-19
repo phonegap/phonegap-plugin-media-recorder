@@ -62,10 +62,15 @@ MediaRecorder.prototype.start = function (timeslice) {
         if (this.isTypeSupported(this.mimeType)) {
             this.src = this.src + this.typesSupported[this.mimeType];
         } else {
-            throw new DOMException('Incompatible mimeType', 'NotSupportedError');
+            throw new DOMException(
+                'Incompatible mimeType',
+                'NotSupportedError'
+            );
         }
         // If we have a video stream pass in which camera to use
-        var video = this.stream.getVideoTracks()[0] ? this.stream.getVideoTracks()[0].description : '';
+        var video = this.stream.getVideoTracks()[0]
+            ? this.stream.getVideoTracks()[0].description
+            : '';
         // If we have an audio stream enable recording of audio
         var audio = this.stream.getAudioTracks().length > 0;
         var success = function (info) {
@@ -80,10 +85,17 @@ MediaRecorder.prototype.start = function (timeslice) {
             that.onerror(error);
         };
         if (video !== '') {
-            exec(success, fail, 'MediaRecorder', 'start', [timeslice, video, audio]);
+            exec(success, fail, 'MediaRecorder', 'start', [
+                timeslice,
+                video,
+                audio
+            ]);
         } else {
             this.id = this.stream.getAudioTracks()[0].id;
-            exec(success, fail, 'AudioRecorder', 'startRecordingAudio', [this.id, this.src]);
+            exec(success, fail, 'AudioRecorder', 'startRecordingAudio', [
+                this.id,
+                this.src
+            ]);
             this.timeOutID = setTimeout(function () {
                 that.stop();
             }, timeslice);
@@ -99,20 +111,24 @@ MediaRecorder.prototype.stop = function () {
         var that = this;
         var success = function (info) {
             clearTimeout(that.timeOutID);
-            resolveLocalFileSystemURL(that.src, function (entry) { // eslint-disable-line no-undef
+            window.resolveLocalFileSystemURL(that.src, function (entry) {
+                // eslint-disable-line no-undef
                 var nativePath = entry.toURL();
                 that.src = nativePath;
                 that.onstop();
             });
         };
         var fail = function (error) {
-        	that.onstop();
+            that.onstop();
             that.onerror(error);
         };
         if (this.id === '') {
             exec(success, fail, 'MediaRecorder', 'stop', []);
         } else {
-            exec(success, fail, 'AudioRecorder', 'stopRecordingAudio', [this.id, this.src]);
+            exec(success, fail, 'AudioRecorder', 'stopRecordingAudio', [
+                this.id,
+                this.src
+            ]);
         }
     }
 };
@@ -152,15 +168,17 @@ MediaRecorder.prototype.resume = function () {
 MediaRecorder.prototype.requestData = function () {
     var that = this;
     // works on ios 10.3 and above
-    fetch(this.src).then(function (response) {
-        return response.blob();
-    }).then(function (blob) {
-        that.ondataavailable(blob);
-    });
+    fetch(this.src)
+        .then(function (response) {
+            return response.blob();
+        })
+        .then(function (blob) {
+            that.ondataavailable(blob);
+        });
 };
 
 MediaRecorder.prototype.isTypeSupported = function (type) {
-    return (this.typesSupported[type] !== undefined);
+    return this.typesSupported[type] !== undefined;
 };
 
 module.exports = MediaRecorder;
