@@ -61,7 +61,7 @@ describe('phonegap-plugin-media-recorder', function () {
             expect(media.isTypeSupported('video/mp4')).toEqual(false);
             expect(media.isTypeSupported('audio/m4a')).toEqual(true);
             expect(media.isTypeSupported('audio/wav')).toEqual(true);
-            expect(media.isTypeSupported('video/quicktime')).toEqual(true);
+            expect(media.isTypeSupported('video/quicktime')).toEqual(false);
             expect(media.isTypeSupported('')).toEqual(true);
             expect(media.state).toBe('inactive');
             // spyOn(media,'onstart');
@@ -112,8 +112,8 @@ describe('phonegap-plugin-media-recorder', function () {
             expect(media.isTypeSupported).toBeDefined();
             expect(typeof media.isTypeSupported).toBe('function');
             expect(media.isTypeSupported('video/mp4')).toEqual(false);
-            expect(media.isTypeSupported('audio/m4a')).toEqual(true);
-            expect(media.isTypeSupported('audio/wav')).toEqual(true);
+            expect(media.isTypeSupported('audio/m4a')).toEqual(false);
+            expect(media.isTypeSupported('audio/wav')).toEqual(false);
             expect(media.isTypeSupported('video/quicktime')).toEqual(true);
             expect(media.isTypeSupported('')).toEqual(true);
             media.start();
@@ -156,8 +156,8 @@ describe('phonegap-plugin-media-recorder', function () {
             expect(media.isTypeSupported).toBeDefined();
             expect(typeof media.isTypeSupported).toBe('function');
             expect(media.isTypeSupported('video/mp4')).toEqual(false);
-            expect(media.isTypeSupported('audio/m4a')).toEqual(true);
-            expect(media.isTypeSupported('audio/wav')).toEqual(true);
+            expect(media.isTypeSupported('audio/m4a')).toEqual(false);
+            expect(media.isTypeSupported('audio/wav')).toEqual(false);
             expect(media.isTypeSupported('video/quicktime')).toEqual(true);
             expect(media.isTypeSupported('')).toEqual(true);
             media.start();
