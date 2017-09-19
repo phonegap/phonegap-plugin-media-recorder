@@ -26,11 +26,11 @@ This plugin provides an implementation for recording video and audio on a device
 
 ## Installation
 
-
+```
 phonegap plugin add phonegap-plugin-media-recorder
 
 phonegap plugin add https://github.com/phonegap/phonegap-plugin-media-recorder.git
-
+```
 
 ## MediaRecorder Constructor
 
@@ -38,16 +38,17 @@ The MediaRecorder constructor uses the mediastream track obtained by using the p
 
 ### Example
 
-        navigator.mediaDevices.getUserMedia({
-            'audio': true,
-            'video': {
-            facingMode: 'user'
-            }
-        }).then(function(getmedia) {
-            var options = { mimeType : 'video/quicktime'};
-            var mediaRecorder = new MediaRecorder(getmedia, options);
-        });
-
+```javascript
+navigator.mediaDevices.getUserMedia({
+    'audio': true,
+    'video': {
+        facingMode: 'user'
+    }
+}).then(function(mediastream) {
+    var options = { mimeType : 'video/quicktime'};
+    var mediaRecorder = new MediaRecorder(mediastream, options);
+});
+```
 
 ## The `mediaRecorder` object
 
@@ -75,8 +76,9 @@ The start method accepts an optional timeslice parameter (in milliseconds) and a
 
 ### Example
 
-    mediaRecorder.start();
-
+```javascript
+mediaRecorder.start();
+```
 
 ##  mediaRecorder.stop
 
@@ -84,8 +86,9 @@ The stop method allows the user to stop recording an audio/ video. For video rec
 
 ### Example
 
-    mediaRecorder.stop();
-
+```javascript
+mediaRecorder.stop();
+```
 
 ## mediaRecorder.pause
 
@@ -93,8 +96,9 @@ This functionality is supported only for audio recording on iOS. Fully supported
 
 ### Example
 
-    mediaRecorder.pause();
-
+```javascript
+mediaRecorder.pause();
+```
 
 ## mediaRecorder.resume
 
@@ -102,8 +106,9 @@ This functionality is supported only for audio recording on iOS. Fully supported
 
 ### Example
 
-    mediaRecorder.resume();
-
+```javascript
+mediaRecorder.resume();
+```
 
 ## mediaRecorder.requestData
 
@@ -111,8 +116,9 @@ This functionality allows us to gather the recorded video/audio data in a blob.
 
 ### Example
 
-    mediaRecorder.requestData();
-
+```javascript
+mediaRecorder.requestData();
+```
 
 ## mediaRecorder.isTypeSupported
 
@@ -120,8 +126,9 @@ This method allows us to see if a specific mimeType is supported
 
 ### Example
 
+```javascript
 mediaRecorder.isTypeSupported("audio/m4a");   //  returns true
-
+```
 
 ## Gathering and Playing the recorded data
 
@@ -131,42 +138,43 @@ After the requestData() method is called and the blob is created, the `ondataava
 
 Recording video on iOS
 
-    mediaRecorder.onstart = function() {
-        console.log('recording started');
-    }
-    mediaRecorder.onstop = function() {
-        console.log ('recording stopped');
-    mediaRecorder.requestData();
-    }
-    mediaRecorder.ondataavailable = function(blob) {
-        var videoTag = document.getElementById("vid");  // vid is the video tag 
-        videoTag.src = mediaRecorder.src;
-    }
-    mediaRecorder.start();
-
+```javascript
+mediaRecorder.onstart = function() {
+    console.log('recording started');
+}
+mediaRecorder.onstop = function() {
+    console.log ('recording stopped');
+mediaRecorder.requestData();
+}
+mediaRecorder.ondataavailable = function(blob) {
+    var videoTag = document.getElementById("vid");  // vid is the video tag 
+    videoTag.src = mediaRecorder.src;
+}
+mediaRecorder.start();
+```
 
 The stop(), pause() and resume() events are supported on Android.
 
 
 Recording Audio
 
-    mediaRecorder.onstart = function() {
-        console.log('recording started');
-    }
-    mediaRecorder.onstop = function() {
-        console.log ('recording stopped');
-        mediaRecorder.requestData();
-    }
-    mediaRecorder.ondataavailable = function(blob) {
-        var audioTag = document.getElementById("aud");  //  aud is the audio tag 
-        audioTag.src = mediaRecorder.src;
-    }
-    mediaRecorder.start();
-    setTimeout(function(){              // stop recording audio after 10 seconds
-        mediaRecorder.stop();
-    }, 10000);           
-
-
+```javascript
+mediaRecorder.onstart = function() {
+    console.log('recording started');
+}
+mediaRecorder.onstop = function() {
+    console.log ('recording stopped');
+    mediaRecorder.requestData();
+}
+mediaRecorder.ondataavailable = function(blob) {
+    var audioTag = document.getElementById("aud");  //  aud is the audio tag 
+    audioTag.src = mediaRecorder.src;
+}
+mediaRecorder.start();
+setTimeout(function(){       // stop recording audio after 10 seconds
+    mediaRecorder.stop();
+}, 10000);           
+```
 
 
 ## [Contributing](https://github.com/phonegap/phonegap-plugin-media-recorder/blob/master/.github/CONTRIBUTING.md)
