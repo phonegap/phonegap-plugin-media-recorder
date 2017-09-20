@@ -152,7 +152,7 @@ After the requestData() method is called and the blob is created, the `ondataava
 
 ### Example
 
-Recording video on iOS
+Recording Video
 
 ```javascript
 mediaRecorder.onstart = function() {
