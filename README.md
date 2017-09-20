@@ -72,7 +72,7 @@ The mediaRecorder object also has the following events:
 
 ##  mediaRecorder.start(optional timeslice)
 
-The start method accepts an optional timeslice parameter (in milliseconds) and allows the user to record an audio/ video. The timeslice parameter allows the user to specify the duration of the recorded video/audio. For video recording, the implementation in iOS allows the user to open the camera view and record the video. For audio, the iOS implementation does not have a specific UI and works in the background. Android has integrated support for the [W3C Media Stream API](https://www.w3.org/TR/mediacapture-streams/) and the [W3C MediaStream Recording API](https://www.w3.org/TR/mediastream-recording/).
+The start method accepts an optional timeslice parameter (in milliseconds) and allows the user to record an audio/ video. The timeslice parameter allows the user to specify the duration of the recorded video/audio. For video recording, the implementation in iOS allows the user to open the camera view and record the video. For audio, the iOS implementation does not have a specific UI and works in the background. Android has integrated support for the [W3C Media Stream API](https://www.w3.org/TR/mediacapture-streams/) and the [W3C MediaStream Recording API](https://www.w3.org/TR/mediastream-recording/). However, Android can record the video in the background without a specific user interface which can be seen in the `Android Demo` below. A live stream,if needed, can be added using the [W3C Media Stream API](https://www.w3.org/TR/mediacapture-streams/).
 
 ### Example
 
@@ -82,6 +82,10 @@ mediaRecorder.onstart = function() {
 };
 mediaRecorder.start();
 ```
+
+### [iOS Demo](resources/iOS.gif)
+
+### [Android Demo](resources/Android.gif)
 
 ##  mediaRecorder.stop
 
