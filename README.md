@@ -77,6 +77,9 @@ The start method accepts an optional timeslice parameter (in milliseconds) and a
 ### Example
 
 ```javascript
+mediaRecorder.onstart = function() {
+    console.log('Recording Started');
+};
 mediaRecorder.start();
 ```
 
@@ -87,6 +90,9 @@ The stop method allows the user to stop recording an audio/ video. For video rec
 ### Example
 
 ```javascript
+mediaRecorder.onstop = function() {
+    console.log('Recording Stopped');
+};
 mediaRecorder.stop();
 ```
 
@@ -97,6 +103,9 @@ This functionality is supported only for audio recording on iOS. Fully supported
 ### Example
 
 ```javascript
+mediaRecorder.onpause = function() {
+    console.log('Recording Paused');
+};
 mediaRecorder.pause();
 ```
 
@@ -107,6 +116,9 @@ This functionality is supported only for audio recording on iOS. Fully supported
 ### Example
 
 ```javascript
+mediaRecorder.onresume = function() {
+    console.log('Recording Resumed');
+};
 mediaRecorder.resume();
 ```
 
@@ -117,6 +129,10 @@ This functionality allows us to gather the recorded video/audio data in a blob.
 ### Example
 
 ```javascript
+mediaRecorder.ondataavailable = function(blob) {
+    console.log('Data Available: blob size is ' + blob.size);
+    console.log('File URI is '+ mediaRecorder.src);
+};
 mediaRecorder.requestData();
 ```
 
@@ -147,13 +163,18 @@ mediaRecorder.onstop = function() {
 mediaRecorder.requestData();
 }
 mediaRecorder.ondataavailable = function(blob) {
-    var videoTag = document.getElementById("vid");  // vid is the video tag 
-    videoTag.src = mediaRecorder.src;
+    var videoTag = document.getElementById("vid");  // vid is the video tag
+    if(device.platform === 'iOS') {                 // iOS device ; cordova-plugin-device required for this check
+        videoTag.src = mediaRecorder.src;
+    } else {
+        videoTag.src = URL.createObjectURL(blob);   // Android device
+    }
 }
 mediaRecorder.start();
 ```
 
-The stop(), pause() and resume() events are supported on Android.
+ The mediaRecorder.stop() method needs to be called explicitly for Android if the optional timeslice parameter in mediaRecorder.start() has not been provided.
+ The stop(), pause() and resume() events are supported on Android but not supported on iOS for video recording.
 
 
 Recording Audio
@@ -167,13 +188,14 @@ mediaRecorder.onstop = function() {
     mediaRecorder.requestData();
 }
 mediaRecorder.ondataavailable = function(blob) {
-    var audioTag = document.getElementById("aud");  //  aud is the audio tag 
-    audioTag.src = mediaRecorder.src;
+    var audioTag = document.getElementById("aud");  // aud is the audio tag
+    if(device.platform === 'iOS') {                 // iOS ; cordova-plugin-device required for this check
+        audioTag.src = mediaRecorder.src;
+    } else {
+        audioTag.src = URL.createObjectURL(blob);   // Android
+    }
 }
-mediaRecorder.start();
-setTimeout(function(){       // stop recording audio after 10 seconds
-    mediaRecorder.stop();
-}, 10000);           
+mediaRecorder.start(10000);    // stop recording audio after 10 seconds
 ```
 
 
