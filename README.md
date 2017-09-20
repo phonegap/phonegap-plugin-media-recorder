@@ -18,7 +18,7 @@
  -->
 
 
-# phonegap-plugin-media-recorder
+# phonegap-plugin-media-recorder [![Build Status](https://travis-ci.org/phonegap/phonegap-plugin-media-recorder.svg)](https://travis-ci.org/phonegap/phonegap-plugin-media-recorder)
 
 This plugin provides an implementation for recording video and audio on a device based on the [W3C MediaStream Recording API](https://www.w3.org/TR/mediastream-recording/) for iOS and Android. In order to achieve the recording, this plugin uses the [phonegap-plugin-media-stream](https://github.com/phonegap/phonegap-plugin-media-stream) which is based on the [W3C Media Stream API](https://www.w3.org/TR/mediacapture-streams/). The phonegap-plugin-media-stream makes the mediastream track available to the phonegap-plugin-media-recorder which allows the user to record a video/audio. The phonegap-plugin-media-stream is added as a dependency to the phonegap-plugin-media-recorder plugin.
 
