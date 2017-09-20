@@ -85,7 +85,7 @@ mediaRecorder.start();
 
 ##  mediaRecorder.stop
 
-The stop method allows the user to stop recording an audio/ video. For video recording, the implementation in iOS allows the user to stop the video using the camera button. For audio, the iOS implementation does not have a specific UI and works in the background.
+The stop method allows the user to stop recording an audio/ video. For video recording, the implementation in iOS allows the user to stop the video using the camera button. For audio, the iOS implementation does not have a specific UI and works in the background. For Android, the recording has to be stopped by using `mediaRecorder.stop()` or by using the optional `timeslice` parameter in `mediaRecorder.start(timeslice)`.
 
 ### Example
 
