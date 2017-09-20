@@ -124,7 +124,7 @@ mediaRecorder.resume();
 
 ## mediaRecorder.requestData
 
-This functionality allows us to gather the recorded video/audio data in a blob.
+This functionality allows us to gather the recorded video/audio data in a [blob](https://www.w3.org/TR/FileAPI/#dfn-Blob).
 
 ### Example
 
