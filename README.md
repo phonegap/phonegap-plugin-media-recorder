@@ -164,14 +164,16 @@ mediaRecorder.onstart = function() {
 }
 mediaRecorder.onstop = function() {
     console.log ('recording stopped');
-mediaRecorder.requestData();
+    mediaRecorder.requestData();
 }
 mediaRecorder.ondataavailable = function(blob) {
     var videoTag = document.getElementById("vid");  // vid is the video tag
     if(device.platform === 'iOS') {                 // iOS device ; cordova-plugin-device required for this check
         videoTag.src = mediaRecorder.src;
     } else {
-        videoTag.src = URL.createObjectURL(blob);   // Android device
+        var recordedChunks = [];
+        recordedChunks.push(blob.data);
+        videoTag.src = URL.createObjectURL(new Blob(recordedChunks));   // Android device
     }
 }
 mediaRecorder.start();
@@ -196,7 +198,9 @@ mediaRecorder.ondataavailable = function(blob) {
     if(device.platform === 'iOS') {                 // iOS ; cordova-plugin-device required for this check
         audioTag.src = mediaRecorder.src;
     } else {
-        audioTag.src = URL.createObjectURL(blob);   // Android
+        var recordedChunks = [];
+        recordedChunks.push(blob.data);
+        audioTag.src = URL.createObjectURL(new Blob(recordedChunks));   // Android device
     }
 }
 mediaRecorder.start(10000);    // stop recording audio after 10 seconds
