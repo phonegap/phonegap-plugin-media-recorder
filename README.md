@@ -206,6 +206,9 @@ mediaRecorder.ondataavailable = function(blob) {
 mediaRecorder.start(10000);    // stop recording audio after 10 seconds
 ```
 
+## Quirks
+
+In order to add a `blob` object as a source for a video tag, `blob:` should be added to the `media-src` part of the Content-Security-Policy meta tag in your index.html.
 
 ## [Contributing](https://github.com/phonegap/phonegap-plugin-media-recorder/blob/master/.github/CONTRIBUTING.md)
 
