@@ -17,63 +17,51 @@
   specific language governing permissions and limitations
   under the License.
 -->
-
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:rim="http://www.blackberry.com/ns/widgets"
-    id="phonegap-plugin-media-recorder"
-    version="0.0.1">
+<plugin 
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:rim="http://www.blackberry.com/ns/widgets" id="phonegap-plugin-media-recorder" version="0.0.1">
     <name>Media Recorder</name>
     <description>PhoneGap Media Recorder Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,media</keywords>
     <repo>https://github.com/phonegap/phonegap-plugin-media-recorder.git</repo>
     <issue>https://github.com/phonegap/phonegap-plugin-media-recorder/issues</issue>
-    <dependency id="phonegap-plugin-media-stream" version="^1.1.0"/>
+    <dependency id="phonegap-plugin-media-stream" version="^1.2.0"/>
     <dependency id="cordova-plugin-file" version="^4.0.0" />
-
-
-     <!-- ios -->
-     <platform name="ios">
-         <js-module src="www/MediaRecorder.js" name="MediaRecorder">
-             <clobbers target="MediaRecorder" />
-         </js-module>
-
-         <config-file target="config.xml" parent="/*">
-             <feature name="MediaRecorder">
-                 <param name="ios-package" value="CDVMediaRecorder" />
-             </feature>
-         </config-file>
-         <config-file target="config.xml" parent="/*">
-             <feature name="AudioRecorder">
-                 <param name="ios-package" value="CDVAudio" />
-             </feature>
-         </config-file>
-
-         <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
-         <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
-             <string>$CAMERA_USAGE_DESCRIPTION</string>
-         </config-file>
-
-         <preference name="MICROPHONE_USAGE_DESCRIPTION" default=" " />
-         <config-file target="*-Info.plist" parent="NSMicrophoneUsageDescription">
-             <string>$MICROPHONE_USAGE_DESCRIPTION</string>
-         </config-file>
-
-         <preference name="PHOTOLIBRARY_USAGE_DESCRIPTION" default=" " />
-         <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
-             <string>$PHOTOLIBRARY_USAGE_DESCRIPTION</string>
-         </config-file>
-
-         <header-file src="src/ios/CDVMediaRecorder.h" />
-         <source-file src="src/ios/CDVMediaRecorder.m" />
-         <header-file src="src/ios/CDVAudioRecorder.h" />
-         <source-file src="src/ios/CDVAudioRecorder.m" />
-         <resource-file src="src/ios/CDVMediaRecorder.bundle"/>
-     </platform>
-
-    <!-- browser -->
-    <platform name="browser">
+    <!-- ios -->
+    <platform name="ios">
+        <js-module src="www/MediaRecorder.js" name="MediaRecorder">
+            <clobbers target="MediaRecorder" />
+        </js-module>
+        <config-file target="config.xml" parent="/*">
+            <feature name="MediaRecorder">
+                <param name="ios-package" value="CDVMediaRecorder" />
+            </feature>
+        </config-file>
+        <config-file target="config.xml" parent="/*">
+            <feature name="AudioRecorder">
+                <param name="ios-package" value="CDVAudio" />
+            </feature>
+        </config-file>
+        <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+            <string>$CAMERA_USAGE_DESCRIPTION</string>
+        </config-file>
+        <preference name="MICROPHONE_USAGE_DESCRIPTION" default=" " />
+        <config-file target="*-Info.plist" parent="NSMicrophoneUsageDescription">
+            <string>$MICROPHONE_USAGE_DESCRIPTION</string>
+        </config-file>
+        <preference name="PHOTOLIBRARY_USAGE_DESCRIPTION" default=" " />
+        <config-file target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
+            <string>$PHOTOLIBRARY_USAGE_DESCRIPTION</string>
+        </config-file>
+        <header-file src="src/ios/CDVMediaRecorder.h" />
+        <source-file src="src/ios/CDVMediaRecorder.m" />
+        <header-file src="src/ios/CDVAudioRecorder.h" />
+        <source-file src="src/ios/CDVAudioRecorder.m" />
+        <resource-file src="src/ios/CDVMediaRecorder.bundle"/>
     </platform>
-
+    <!-- browser -->
+    <platform name="browser"></platform>
 </plugin>
