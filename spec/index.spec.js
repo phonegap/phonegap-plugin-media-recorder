@@ -1,13 +1,21 @@
-/* globals require, describe, it, expect */
+/* globals require, describe, it, expect, spyOn, beforeEach, jasmine */
 
 /*!
  * Module dependencies.
  */
 var cordova = require('./helper/cordova');
+var window = require('./helper/resolveLocalFileSystemURL'); // eslint-disable-line no-unused-vars
 var testStreams = require('./streams');
 var MediaRecorder = require('../www/MediaRecorder');
+var execWin;
+var execSpy;
 
 describe('phonegap-plugin-media-recorder', function () {
+    beforeEach(function () {
+        execWin = jasmine.createSpy();
+        execSpy = spyOn(cordova.required, 'cordova/exec').andCallFake(execWin);
+    });
+
     describe('MediaRecorder', function () {
         it('should exist', function () {
             expect(MediaRecorder).toBeDefined();
@@ -15,7 +23,7 @@ describe('phonegap-plugin-media-recorder', function () {
         });
 
         it('should take a MediaStream as constructor argument with audio', function () {
-            var options = { mimeType: 'video/quicktime' };
+            var options = { mimeType: 'audio/m4a' };
             var media = new MediaRecorder(testStreams.audioOnly, options);
             expect(media).toBeDefined();
             expect(typeof media === 'object').toBe(true);
@@ -53,17 +61,27 @@ describe('phonegap-plugin-media-recorder', function () {
             expect(media.isTypeSupported('video/quicktime')).toEqual(false);
             expect(media.isTypeSupported('')).toEqual(true);
             expect(media.state).toBe('inactive');
-            // spyOn(media,'onstart');
-            // media.start();
-            // expect(media.state).toBe('recording');
-            // // expect(media.onstart).toHaveBeenCalled();
-            // media.pause();
-            // expect(media.state).toBe('paused');
-            // media.resume();
-            // expect(media.state).toBe('recording');
-            // // spyOn(media,'onstop');
-            // media.stop();
-            // expect(media.state).toBe('inactive');
+            execSpy.andCallFake(function (win, fail, service, id, args) {
+                win({
+                    state: 'recording'
+                });
+            });
+            var startSpy = spyOn(media, 'onstart');
+            var pauseSpy = spyOn(media, 'onpause');
+            var resumeSpy = spyOn(media, 'onresume');
+            var stopSpy = spyOn(media, 'onstop');
+            media.start();
+            expect(media.state).toBe('recording');
+            expect(startSpy).toHaveBeenCalled();
+            media.pause();
+            expect(media.state).toBe('paused');
+            expect(pauseSpy).toHaveBeenCalled();
+            media.resume();
+            expect(media.state).toBe('recording');
+            expect(resumeSpy).toHaveBeenCalled();
+            media.stop();
+            expect(media.state).toBe('inactive');
+            expect(stopSpy).toHaveBeenCalled();
         });
 
         it('should take a MediaStream as constructor argument with audio + video', function () {
@@ -104,10 +122,19 @@ describe('phonegap-plugin-media-recorder', function () {
             expect(media.isTypeSupported('audio/wav')).toEqual(false);
             expect(media.isTypeSupported('video/quicktime')).toEqual(true);
             expect(media.isTypeSupported('')).toEqual(true);
-            // media.start();
-            // expect(media.state).toBe('recording');
-            // media.stop();
-            // expect(media.state).toBe('inactive');
+            execSpy.andCallFake(function (win, fail, service, id, args) {
+                win({
+                    state: 'recording'
+                });
+            });
+            var startSpy = spyOn(media, 'onstart');
+            var stopSpy = spyOn(media, 'onstop');
+            media.start();
+            expect(media.state).toBe('recording');
+            expect(startSpy).toHaveBeenCalled();
+            media.stop();
+            expect(media.state).toBe('inactive');
+            expect(stopSpy).toHaveBeenCalled();
         });
 
         it('should take a MediaStream as constructor argument with video only', function () {
@@ -148,10 +175,19 @@ describe('phonegap-plugin-media-recorder', function () {
             expect(media.isTypeSupported('audio/wav')).toEqual(false);
             expect(media.isTypeSupported('video/quicktime')).toEqual(true);
             expect(media.isTypeSupported('')).toEqual(true);
-            // media.start();
-            // expect(media.state).toBe('recording');
-            // media.stop();
-            // expect(media.state).toBe('inactive');
+            execSpy.andCallFake(function (win, fail, service, id, args) {
+                win({
+                    state: 'recording'
+                });
+            });
+            var startSpy = spyOn(media, 'onstart');
+            var stopSpy = spyOn(media, 'onstop');
+            media.start();
+            expect(media.state).toBe('recording');
+            expect(startSpy).toHaveBeenCalled();
+            media.stop();
+            expect(media.state).toBe('inactive');
+            expect(stopSpy).toHaveBeenCalled();
         });
     });
 });

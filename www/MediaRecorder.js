@@ -18,7 +18,7 @@
  * under the License.
  *
 */
-/* globals Promise, cordova, DOMException, fetch */
+/* globals Promise, cordova, DOMException, fetch, resolveLocalFileSystemURL */
 var exec = cordova.require('cordova/exec');
 
 var MediaRecorder = function (stream, options) {
@@ -115,7 +115,7 @@ MediaRecorder.prototype.stop = function () {
         var that = this;
         var success = function (info) {
             clearTimeout(that.timeOutID);
-            window.resolveLocalFileSystemURL(that.src, function (entry) {
+            resolveLocalFileSystemURL(that.src, function (entry) {
                 // eslint-disable-line no-undef
                 var nativePath = entry.toURL();
                 that.src = nativePath;
