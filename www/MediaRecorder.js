@@ -82,6 +82,14 @@ MediaRecorder.prototype.start = function (timeslice) {
                 that.onstart();
             } else if (info.state === 'inactive') {
                 that.src = info.url;
+                that.state = info.state;
+                fetch(that.src)
+                    .then(function (response) {
+                        return response.blob();
+                    })
+                    .then(function (blob) {
+                        that.ondataavailable(blob);
+                    });
                 that.onstop();
             }
         };
@@ -119,6 +127,13 @@ MediaRecorder.prototype.stop = function () {
                 // eslint-disable-line no-undef
                 var nativePath = entry.toURL();
                 that.src = nativePath;
+                fetch(that.src)
+                    .then(function (response) {
+                        return response.blob();
+                    })
+                    .then(function (blob) {
+                        that.ondataavailable(blob);
+                    });
                 that.onstop();
             });
         };
@@ -170,15 +185,19 @@ MediaRecorder.prototype.resume = function () {
 };
 
 MediaRecorder.prototype.requestData = function () {
-    var that = this;
-    // works on ios 10.3 and above
-    fetch(this.src)
-        .then(function (response) {
-            return response.blob();
-        })
-        .then(function (blob) {
-            that.ondataavailable(blob);
-        });
+    if (this.state === 'inactive') {
+        throw new DOMException('', 'InvalidStateError');
+    } else {
+        var that = this;
+        // works on ios 10.3 and above
+        fetch(this.src)
+            .then(function (response) {
+                return response.blob();
+            })
+            .then(function (blob) {
+                that.ondataavailable(blob);
+            });
+    }
 };
 
 MediaRecorder.prototype.isTypeSupported = function (type) {
