@@ -128,7 +128,7 @@ mediaRecorder.resume();
 
 ## mediaRecorder.requestData
 
-This functionality allows us to gather the recorded video/audio data in a [blob](https://www.w3.org/TR/FileAPI/#dfn-Blob).
+This functionality allows us to gather the recorded video/audio data in a [blob](https://www.w3.org/TR/FileAPI/#dfn-Blob). This method is available only when the `state` of the mediaRrecorder is not `inactive`.
 
 ### Example
 
@@ -164,7 +164,6 @@ mediaRecorder.onstart = function() {
 }
 mediaRecorder.onstop = function() {
     console.log ('recording stopped');
-    mediaRecorder.requestData();
 }
 mediaRecorder.ondataavailable = function(blob) {
     var videoTag = document.getElementById("vid");  // vid is the video tag
@@ -191,7 +190,6 @@ mediaRecorder.onstart = function() {
 }
 mediaRecorder.onstop = function() {
     console.log ('recording stopped');
-    mediaRecorder.requestData();
 }
 mediaRecorder.ondataavailable = function(blob) {
     var audioTag = document.getElementById("aud");  // aud is the audio tag
