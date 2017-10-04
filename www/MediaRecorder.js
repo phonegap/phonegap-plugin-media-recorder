@@ -82,14 +82,8 @@ MediaRecorder.prototype.start = function (timeslice) {
                 that.onstart();
             } else if (info.state === 'inactive') {
                 that.src = info.url;
-                that.state = info.state;
-                fetch(that.src)
-                    .then(function (response) {
-                        return response.blob();
-                    })
-                    .then(function (blob) {
-                        that.ondataavailable(blob);
-                    });
+                that.requestData();
+                this.state = info.state;
                 that.onstop();
             }
         };
@@ -119,7 +113,6 @@ MediaRecorder.prototype.stop = function () {
     if (this.state === 'inactive') {
         throw new DOMException('', 'InvalidStateError');
     } else {
-        this.state = 'inactive';
         var that = this;
         var success = function (info) {
             clearTimeout(that.timeOutID);
@@ -127,13 +120,8 @@ MediaRecorder.prototype.stop = function () {
                 // eslint-disable-line no-undef
                 var nativePath = entry.toURL();
                 that.src = nativePath;
-                fetch(that.src)
-                    .then(function (response) {
-                        return response.blob();
-                    })
-                    .then(function (blob) {
-                        that.ondataavailable(blob);
-                    });
+                that.requestData();
+                this.state = 'inactive';
                 that.onstop();
             });
         };
