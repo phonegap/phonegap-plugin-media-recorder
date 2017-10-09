@@ -121,7 +121,7 @@ MediaRecorder.prototype.stop = function () {
                 var nativePath = entry.toURL();
                 that.src = nativePath;
                 that.requestData();
-                this.state = 'inactive';
+                that.state = 'inactive';
                 that.onstop();
             });
         };
