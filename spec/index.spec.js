@@ -24,6 +24,10 @@ describe('phonegap-plugin-media-recorder', function () {
 
         it('should take a MediaStream as constructor argument with audio', function () {
             var options = { mimeType: 'audio/m4a' };
+            spyOn(MediaRecorder.prototype, 'requestData').andCallFake(function () {
+                var dummyString = 'fetch';
+                return dummyString;
+            });
             var media = new MediaRecorder(testStreams.audioOnly, options);
             expect(media).toBeDefined();
             expect(typeof media === 'object').toBe(true);
@@ -86,6 +90,10 @@ describe('phonegap-plugin-media-recorder', function () {
 
         it('should take a MediaStream as constructor argument with audio + video', function () {
             var options = { mimeType: 'video/quicktime' };
+            spyOn(MediaRecorder.prototype, 'requestData').andCallFake(function () {
+                var dummyString = 'fetch';
+                return dummyString;
+            });
             var media = new MediaRecorder(testStreams.audioAndVideo, options);
             expect(media).toBeDefined();
             expect(typeof media === 'object').toBe(true);
@@ -139,6 +147,10 @@ describe('phonegap-plugin-media-recorder', function () {
 
         it('should take a MediaStream as constructor argument with video only', function () {
             var options = { mimeType: 'video/quicktime' };
+            spyOn(MediaRecorder.prototype, 'requestData').andCallFake(function () {
+                var dummyString = 'fetch';
+                return dummyString;
+            });
             var media = new MediaRecorder(testStreams.videoOnly, options);
             expect(media).toBeDefined();
             expect(typeof media === 'object').toBe(true);
