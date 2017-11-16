@@ -28,7 +28,7 @@
     // handle command and options
     __weak CDVMediaRecorder* weakSelf = self;
     self.command = command;
-    self.videoCam = command.arguments[1];
+    self.videoCam = command.arguments[0];
 
     // switch to camera view
     CameraViewController *cameraViewController = [[CameraViewController alloc] init];
@@ -36,8 +36,7 @@
     if(![self.videoCam isEqualToString:@""]){
         cameraViewController.camDirection = self.videoCam;
     }
-    cameraViewController.isAudio = [[command argumentAtIndex:2 withDefault:@(NO)] boolValue];
-    cameraViewController.time = [command.arguments[0] floatValue];
+    cameraViewController.isAudio = [[command argumentAtIndex:1 withDefault:@(NO)] boolValue];
     cameraViewController.task = @"mediaRecorder";
     [weakSelf.viewController presentViewController:cameraViewController animated:YES completion:^{
 

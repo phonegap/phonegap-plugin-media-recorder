@@ -51,7 +51,6 @@ var MediaRecorder = function (stream, options) {
             '': 'mov'
         };
     }
-    this.timeOutID = 0;
 };
 
 MediaRecorder.prototype.start = function (timeslice) {
@@ -59,9 +58,6 @@ MediaRecorder.prototype.start = function (timeslice) {
         throw new DOMException('', 'InvalidStateError');
     } else {
         this.state = 'recording';
-        if (!timeslice) {
-            timeslice = 2147483647;
-        }
         var that = this;
         if (this.isTypeSupported(this.mimeType)) {
             this.src = this.src + this.typesSupported[this.mimeType];
@@ -92,7 +88,6 @@ MediaRecorder.prototype.start = function (timeslice) {
         };
         if (video !== '') {
             exec(success, fail, 'MediaRecorder', 'start', [
-                timeslice,
                 video,
                 audio
             ]);
@@ -102,9 +97,6 @@ MediaRecorder.prototype.start = function (timeslice) {
                 this.id,
                 this.src
             ]);
-            this.timeOutID = setTimeout(function () {
-                that.stop();
-            }, timeslice);
         }
     }
 };
@@ -115,7 +107,6 @@ MediaRecorder.prototype.stop = function () {
     } else {
         var that = this;
         var success = function (info) {
-            clearTimeout(that.timeOutID);
             resolveLocalFileSystemURL(that.src, function (entry) {
                 // eslint-disable-line no-undef
                 var nativePath = entry.toURL();
