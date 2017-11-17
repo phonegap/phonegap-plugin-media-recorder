@@ -7,7 +7,10 @@
   <repo>https://github.com/phonegap/phonegap-plugin-media-recorder.git</repo>
   <issue>https://github.com/phonegap/phonegap-plugin-media-recorder/issues</issue>
   <dependency id="phonegap-plugin-media-stream" version="^1.2.0"/>
-  <dependency id="cordova-plugin-file" version="^4.0.0"/>
+  <dependency id="cordova-plugin-file" version="^6.0.1"/>
+  <engines>
+    <engine name="cordova-android" version=">=6.3.0" />
+  </engines>
   <platform name="ios">
     <js-module src="www/MediaRecorder.js" name="MediaRecorder">
       <clobbers target="MediaRecorder"/>
