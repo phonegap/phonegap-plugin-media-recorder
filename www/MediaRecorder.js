@@ -69,7 +69,7 @@ MediaRecorder.prototype.start = function (timeslice) {
         }
         // If we have a video stream pass in which camera to use
         var video = this.stream.getVideoTracks()[0]
-            ? this.stream.getVideoTracks()[0].description
+            ? this.stream.getVideoTracks()[0].label
             : '';
         // If we have an audio stream enable recording of audio
         var audio = this.stream.getAudioTracks().length > 0;
